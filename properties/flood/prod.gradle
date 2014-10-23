@@ -1,0 +1,9 @@
+remotes {
+    webServer1 {
+        role('webServers')
+        host = 'fdsqn1vpwebap04'
+        user = 'kdooley'
+        password = 'Corelogic1234'
+    }
+
+}

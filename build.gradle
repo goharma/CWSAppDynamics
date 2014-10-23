@@ -1,0 +1,65 @@
+plugins {
+    id 'org.hidetake.ssh' version '0.4.2'
+}
+apply plugin: 'com.jcraft:jsch:0.1.51'
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+// def prop_file = $bu/$env.gradle
+// apply from: 'properties/tax/stage.gradle'
+apply from: 'properties/flood/prod.gradle'
+
+task gethost << {
+    ssh.run {
+
+        session(remotes.role('webServers')) {
+            settings {
+                logging = false
+            }
+            get "/tmp/host/*", "."
+        }
+    }
+
+}
+
+task deploy << {
+    ssh.run {
+
+        session(remotes.role('webServers')) {
+            settings {
+                logging = false
+            }
+
+            def jarFile = "$libsDir/$archivesBaseName*.jar"
+            println jarFile
+            put jarFile, "/$stage_dir"
+            def result = execute "cd /$stage_dir; $jar_path xf /$stage_dir/$archivesBaseName*.jar appdynamics-3.9.3.0"
+
+            assert $result
+
+            println result
+        }
+    }
+}
+
+task test_connection << {
+    ssh.run {
+
+        session(remotes.role('webServers')) {
+            settings {
+                logging = false
+            }
+            execute "ls -l"
+        }
+    }
+}
