@@ -3,7 +3,7 @@ remotes {
         role('webServers')
         host = 'fdsqn1vpwebap04'
         user = 'kdooley'
-        password = 'Corelogic1234'
+        password = 'zzzzz'
     }
 
 }
