@@ -3,12 +3,12 @@ remotes {
         role('webServers')
         host = '192.168.58.132'
         user = 'jboss'
-        password = 'Corelogic1234'
+        password = ''
     }
     webServer2 {
         role('webServers')
         host = '192.168.58.132'
         user = 'jboss'
-        password = 'Corelogic1234'
+        password = ''
     }
 }
